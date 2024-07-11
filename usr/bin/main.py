@@ -46,7 +46,7 @@ def get_filenames(dir_path):
     return filenames
 
 
-CONFIG_DATA = ini_read("conf.ini")
+CONFIG_DATA = ini_read("../../conf.ini")
 FILES_PATHS = CONFIG_DATA.get('folder_paths', None)
 
 
@@ -63,9 +63,9 @@ def get_hosts_groups(host_filename=""):
     dict: A dictionary where keys are group names (derived from filenames without extensions) and values are dictionaries of host parameters.
     """
 
-    hosts_dir_path = os.path.join(os.getcwd(), 'hosts')
+    hosts_dir_path = os.path.join(os.getcwd(), '../../hosts')
     if FILES_PATHS:
-        hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.getcwd(), 'hosts'))
+        hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.getcwd(), '../../hosts'))
 
     return process_host_file(hosts_dir_path, host_filename)
 
@@ -110,9 +110,9 @@ def process_host_file(hosts_dir_path, filename):
 
 
 def get_vars_groups(vars_filename=""):
-    vars_dir_path = os.path.join(os.getcwd(), 'vars')
+    vars_dir_path = os.path.join(os.getcwd(), '../../vars')
     if FILES_PATHS:
-        vars_dir_path = FILES_PATHS.get('vars_folder_path', os.path.join(os.getcwd(), 'vars'))
+        vars_dir_path = FILES_PATHS.get('vars_folder_path', os.path.join(os.getcwd(), '../../vars'))
 
     return process_vars_file(vars_dir_path, vars_filename)
 
@@ -146,7 +146,7 @@ def build_command_params_dict(group_name=''):
     # Global timestamp for backup filenames
     time_stamp = str(datetime.datetime.now().date()) + " " + str(datetime.datetime.now().time())
 
-    parsed_config = ini_read("conf.ini")
+    parsed_config = ini_read("../../conf.ini")
     if parsed_config:
         backup_filename = parsed_config['default_params'].get('backup_filename', 'backup' + time_stamp)
         backup_password = parsed_config['default_params'].get('backup_password', '123456')
@@ -157,9 +157,9 @@ def build_command_params_dict(group_name=''):
     if group_name:
         groups_dict = [group_name]
     else:
-        hosts_dir_path = os.path.join(os.getcwd(), 'hosts')
+        hosts_dir_path = os.path.join(os.getcwd(), '../../hosts')
         if FILES_PATHS:
-            hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.getcwd(), 'hosts'))
+            hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.getcwd(), '../../hosts'))
 
         groups_dict = [i.strip(".yaml") for i in get_filenames(hosts_dir_path)]
 
@@ -235,7 +235,7 @@ def create_backups_for_devices(group_name="all"):
     :return: None
     '''
 
-    parsed_ini = ini_read("hosts_groups.ini")
+    parsed_ini = ini_read("../../hosts_groups.ini")
 
     # breaking into groups
     if group_name.lower() == "all" or group_name == '':
