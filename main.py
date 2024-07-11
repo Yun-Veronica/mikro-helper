@@ -253,8 +253,8 @@ def create_backups_for_devices(group_name="all"):
 
     for device_group in devices_dict:
         for device_ip in devices_dict[device_group]:
-            print(device_ip, devices_dict[device_group][device_ip])
-            # print(device_ip, execute_backup_command_on_device(**devices_dict[device_group][device_ip]))
+            # print(device_ip, devices_dict[device_group][device_ip])
+            print(device_ip, execute_backup_command_on_device(**devices_dict[device_group][device_ip]))
     return
 
 
