@@ -1,0 +1,11 @@
+# Создание структуры директорий для пакета
+mkdir -p package_folder/DEBIAN
+cp control package_folder/DEBIAN/
+
+# Добавление скриптов и файлов
+cp install.sh package_folder/
+cp your_script.py package_folder/usr/local/bin/
+cp config.ini package_folder/etc/mikro_helper/
+
+# Упаковка в .deb
+dpkg-deb --build package_folder

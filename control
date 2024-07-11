@@ -1,0 +1,5 @@
+Package: mikro_helper
+Version: 1.1.0
+Architecture: all
+Maintainer: Yun-Veronica
+Description: Helps making some mikrotik work easier
