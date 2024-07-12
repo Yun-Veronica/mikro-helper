@@ -23,15 +23,15 @@ saved in them.
 
 1. Clone code from the repository:</br>
    ``
-   git clone https://github.com/Yun-Veronica/mikro-helper.git
+   git clone https://github.com/Yun-Veronica/mikro-helper.git </br>
    ``
 2. Create .venv </br>
    ``
-   cd mikro-helper
-   sudo apt install python3-pip
-   python3 -m venv .venv
-   source .venv/bin/activate
-   python3 -m pip install -r requirements.txt
+   cd mikro-helper </br>
+   sudo apt install python3-pip </br>
+   python3 -m venv .venv </br>
+   source .venv/bin/activate</br>
+   python3 -m pip install -r requirements.txt</br>
    ``
 
 3. Make mikro-helper.py executable </br>
