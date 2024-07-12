@@ -42,6 +42,11 @@ def yaml_read(filename):
 
 
 def get_filenames(dir_path):
+    '''
+    Getting filenames from directory
+    :param dir_path: path to the directory
+    :return: filenames
+    '''
     filenames = os.listdir(dir_path)
     return filenames
 
@@ -110,6 +115,11 @@ def process_host_file(hosts_dir_path, filename):
 
 
 def get_vars_groups(vars_filename=""):
+    '''
+    getting dict with
+    :param vars_filename:
+    :return:
+    '''
     vars_dir_path = os.path.join(os.getcwd(), 'vars')
     if FILES_PATHS:
         vars_dir_path = FILES_PATHS.get('vars_folder_path', os.path.join(os.getcwd(), 'vars'))
@@ -212,7 +222,7 @@ def execute_backup_command_on_device(hostname, port, username, password, backup_
 
     '''
 
-    command = f'system backup save name={backup_filename} password={backup_password} encryption=aes-sha256'
+    command = f'system backup save name="{backup_filename}" password="{backup_password}" encryption=aes-sha256'
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:

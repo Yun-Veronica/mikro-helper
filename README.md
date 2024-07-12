@@ -1,50 +1,44 @@
-# PyBackupTool docs
+# mikro-helper docs
 This tool automates the process of creating backups on Mikrotik network devices using SSH and Paramiko in Python.
 
 ## Requirements
-
-Make sure you have Python 3.x installed along with the necessary packages listed in `requirements.txt`.
+Make sure you have Python 3.x and pip (``sudo apt install python3-pip``) installed 
+along with the necessary packages listed in `requirements.txt`(`pip install - r requirements.txt`).
 
 ## Files Usage
-hosts.yaml - there all of your ip devices groups are written. Also you can specify some variables for ssh conection, such as port, password, or username. <br>
-Example: <br>
-```
-group1:
-  - 192.168.2.3 password password
-
-group2:
-  - 192.168.2.2 port 22
-  - 192.168.2.1
-  - 192.168.2.3 username admin
-
-```
-
-groups.ini - INI file, where you can group your groups of devices and specify ssh connection variables such username, password, port for group of devices using [groupname:vars] syntax. <br>
-Example: <br>
-```
-[full_group] #group of devices group
-group1
-group2
-  
-[secondary]
-group1
-  
-[group1:vars] #specified variables for group1
-username = admin
-password = admin
-  
-[group2:vars]
-username = super_admin
-password = passsword
- ```
-conf.yaml -  in this file you may specify some of the commented parameters and after that uncomment them for usage.Do not rename them<br>
-
 
 In searching of arguments for ssh conection it goes in the following priority (except for host ip address, it ca be specified only in host.yml):
-1. hosts.yml
-2. groups.ini
-3. conf.yaml
-4. default parameters
+1. k
+2. k
+3. k
 
-## Run
+## Run on the Ubuntu server
+1. Clone code from the repository:</br>
+``
+git clone https://github.com/Yun-Veronica/mikro-helper.git
+``
+2. Create .venv </br>
+``
+cd mikro-helper
+sudo apt install python3-pip
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt
+``
 
+3. Make mikro-helper.py executable </br>
+``
+chmod +x path/to/file/mikro-helper.py
+``
+</br> For example: I am currently in home/ folder. Then, for my situation, the command will be like this: </br>
+``
+chmod +x mikro-helper/mikro-helper.py
+``
+4. Run </br>
+``
+python3 path/to/file/mikro-helper.py
+``
+</br >If I am currently in home/ folder. Then, for my situation, the command will be like this: </br>
+``
+python3  mikro-helper/mikro-helper.py
+``
