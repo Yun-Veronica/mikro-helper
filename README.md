@@ -8,9 +8,8 @@ along with the necessary packages listed in `requirements.txt`(`pip install - r 
 ## Files Usage
 
 In searching of arguments for ssh conection it goes in the following priority (except for host ip address, it ca be specified only in host.yml):
-1. k
-2. k
-3. k
+1. hosts/{groupname}.yaml
+2. vars/{groupname}.ini
 
 ## Run on the Ubuntu server
 1. Clone code from the repository:</br>
