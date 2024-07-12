@@ -33,8 +33,8 @@ saved in them.
    source .venv/bin/activate
    python3 -m pip install -r requirements.txt
    ```
-
-3. Make mikro-helper.py executable </br>
+3. Change files` content in hosts/ and vars/
+4. Make mikro-helper.py executable </br>
    ``
    chmod +x path/to/file/mikro-helper.py
    ``
@@ -42,7 +42,7 @@ saved in them.
    ``
    chmod +x mikro-helper/mikro-helper.py
    ``
-4. Run </br>
+5. Run </br>
    ``
    python3 path/to/file/mikro-helper.py
    ``
