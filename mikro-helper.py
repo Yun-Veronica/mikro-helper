@@ -77,42 +77,36 @@ def get_hosts_groups(host_filename=""):
 
 def process_host_file(hosts_dir_path, filename):
     """
-    Processes a single YAML file and returns the host data.
+    Processes a single .ini file and returns the host data.
 
     :param hosts_dir_path (str): Path to the directory containing the host files.
-    :param filename (str): Name of the YAML file to process.
+    :param filename (str): Name of the .ini file to process.
 
     :returns
     dict: A dictionary of host parameters.
     """
-    hosts_data = yaml_read(os.path.join(hosts_dir_path, filename))
+    hosts_data = ini_read(os.path.join(hosts_dir_path, filename))
     host_data = {}
 
-    for host in hosts_data:
-        if isinstance(host, dict):
-            for ip, params in host.items():
-                port = ""
-                username = ""
-                password = ""
-
-                for param in params:
-                    key, value = param.split("=", 1)
-                    key = key.strip()
-                    value = value.strip().strip('"').strip("'")
-
-                    if key == 'port':
-                        port = value
-                    elif key == 'username':
-                        username = value
-                    elif key == 'password':
-                        password = value
-
-                host_data[ip] = {"port": port, 'username': username, 'password': password}
-        elif isinstance(host, str):
-            host_data[host] = {"port": '', 'username': '', 'password': ''}
+    for hosts in hosts_data:
+        for host in hosts_data[hosts]:
+            if len(host.split()) > 1:
+                data = f"{host}={hosts_data[hosts][host]}".split(' ')
+                params_dict = {}
+                for i in data:
+                    if '=' in i:
+                        key, val = i.strip().split("=")
+                        params_dict[key] = val.strip("'").strip('"')
+                host_data[data[0]] = params_dict
+            else:
+                host_data[host] = {'port': "", "username": "", "password": ""}
 
     return host_data
 
+
+# print(process_host_file('./hosts', 'group1.ini'))
+# breakpoint()
+#
 
 def get_vars_groups(vars_filename=""):
     '''
@@ -171,33 +165,48 @@ def build_command_params_dict(group_name=''):
         if FILES_PATHS:
             hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.getcwd(), 'hosts'))
 
-        groups_dict = [i.strip(".yaml") for i in get_filenames(hosts_dir_path)]
+        groups_dict = [i.strip(".ini") for i in get_filenames(hosts_dir_path)]
 
     command_params_dict = {i: {} for i in groups_dict}
     for group in groups_dict:
 
-        group_hosts = get_hosts_groups(f'{group}.yaml')
+        group_hosts = get_hosts_groups(f'{group}.ini')
         group_vars = get_vars_groups(f'{group}.ini')
+
         for host in group_hosts:
+            # Priority level: params in host/,host params in vars/, group params in vars/
+
+            # check if we had specified this host in vars directly
             if group_vars[group].get(host):
                 host_vars = group_vars[group]
-                port = host_vars.get('port')
-                username = host_vars.get('username')
-                password = host_vars.get('password')
 
-            else:
-                if group_hosts[host]['port'] == '':
-                    port = group_vars[group][group].get('port')
-
+                if not group_hosts[host].get('port'):
+                    port = host_vars.get('port')
                 else:
                     port = group_hosts[host]['port']
 
-                if group_hosts[host]['username'] == '':
+                if not group_hosts[host].get('username'):
+                    username = host_vars.get('username')
+                else:
+                    username = group_hosts[host]['username']
+
+                if not group_hosts[host].get('password'):
+                    password = host_vars.get('password')
+                else:
+                    password = group_hosts[host]['password']
+
+            else:
+                if not group_hosts[host].get('port'):
+                    port = group_vars[group][group].get('port')
+                else:
+                    port = group_hosts[host]['port']
+
+                if not group_hosts[host].get('username'):
                     username = group_vars[group][group].get('username')
                 else:
                     username = group_hosts[host]['username']
 
-                if group_hosts[host]['password'] == '':
+                if not group_hosts[host].get('password'):
                     password = group_vars[group][group].get('password')
                 else:
                     password = group_hosts[host]['password']
@@ -244,18 +253,20 @@ def create_backups_for_devices(group_name="all"):
     :param group_name: name of devices group to be executed
     :return: None
     '''
+    hosts_dir_path = os.path.join(os.getcwd(), 'hosts')
+    if FILES_PATHS:
+        hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.getcwd(), 'hosts'))
 
-    parsed_ini = ini_read("hosts_groups.ini")
+    hosts_groups = get_filenames(hosts_dir_path)
 
-    # breaking into groups
+    # breaking into hosts_groups
     if group_name.lower() == "all" or group_name == '':
         devices_dict = build_command_params_dict()
-    elif group_name in parsed_ini.keys():
-        devices_in_group = parsed_ini.get(group_name, "Error")
+    elif group_name in hosts_groups.keys():
+        devices_in_group = hosts_groups.get(group_name, "Error")
 
         devices_dict = {device_conf: build_command_params_dict(device_conf)[device_conf] for device_conf in
                         devices_in_group.keys()}
-
 
     else:
         print("Error: unknown group name")
