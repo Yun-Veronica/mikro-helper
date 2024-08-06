@@ -128,7 +128,7 @@ def process_vars_file(vars_dir_path, filename):
     for host in vars_data:
         params = vars_data[host]
         port = params.get('port', '22').strip().strip('"').strip("'")
-        username = params.get('username', 'admin').strip().strip('"').strip("'")
+        username = params.get('user', 'admin').strip().strip('"').strip("'")
         password = params.get('password', '12356').strip().strip('"').strip("'")
 
         host_vars_data[host] = {"port": port, 'username': username, 'password': password}
@@ -185,10 +185,10 @@ def build_command_params_dict(group_name=''):
                 else:
                     port = group_hosts[host]['port']
 
-                if not group_hosts[host].get('username'):
-                    username = host_vars.get('username')
+                if not group_hosts[host].get('user'):
+                    username = host_vars.get('user')
                 else:
-                    username = group_hosts[host]['username']
+                    username = group_hosts[host]['user']
 
                 if not group_hosts[host].get('password'):
                     password = host_vars.get('password')
@@ -201,10 +201,10 @@ def build_command_params_dict(group_name=''):
                 else:
                     port = group_hosts[host]['port']
 
-                if not group_hosts[host].get('username'):
-                    username = group_vars[group][group].get('username')
+                if not group_hosts[host].get('user'):
+                    username = group_vars[group][group].get('user')
                 else:
-                    username = group_hosts[host]['username']
+                    username = group_hosts[host]['user']
 
                 if not group_hosts[host].get('password'):
                     password = group_vars[group][group].get('password')
