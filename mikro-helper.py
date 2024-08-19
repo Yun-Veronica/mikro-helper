@@ -67,10 +67,10 @@ def get_hosts_groups(host_filename=""):
     :return:
     dict: A dictionary where keys are group names (derived from filenames without extensions) and values are dictionaries of host parameters.
     """
+    hosts_dir_path = os.path.join(os.path.dirname(__file__), 'hosts')
 
-    hosts_dir_path = os.path.join(os.getcwd(), 'hosts')
     if FILES_PATHS:
-        hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.getcwd(), 'hosts'))
+        hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.path.dirname(__file__), 'hosts'))
 
     return process_host_file(hosts_dir_path, host_filename)
 
@@ -114,9 +114,9 @@ def get_vars_groups(vars_filename=""):
     :param vars_filename:
     :return:
     '''
-    vars_dir_path = os.path.join(os.getcwd(), 'vars')
+    vars_dir_path = os.path.join(os.path.dirname(__file__), 'vars')
     if FILES_PATHS:
-        vars_dir_path = FILES_PATHS.get('vars_folder_path', os.path.join(os.getcwd(), 'vars'))
+        vars_dir_path = FILES_PATHS.get('vars_folder_path', os.path.join(os.path.dirname(__file__), 'vars'))
 
     return process_vars_file(vars_dir_path, vars_filename)
 
@@ -161,9 +161,9 @@ def build_command_params_dict(group_name=''):
     if group_name:
         groups_dict = [group_name]
     else:
-        hosts_dir_path = os.path.join(os.getcwd(), 'hosts')
+        hosts_dir_path = os.path.join(os.path.dirname(__file__), 'hosts')
         if FILES_PATHS:
-            hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.getcwd(), 'hosts'))
+            hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.path.dirname(__file__), 'hosts'))
 
         groups_dict = [i.strip(".ini") for i in get_filenames(hosts_dir_path)]
 
@@ -253,9 +253,9 @@ def create_backups_for_devices(group_name="all"):
     :param group_name: name of devices group to be executed
     :return: None
     '''
-    hosts_dir_path = os.path.join(os.getcwd(), 'hosts')
+    hosts_dir_path = os.path.join(os.path.dirname(__file__), 'hosts')
     if FILES_PATHS:
-        hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.getcwd(), 'hosts'))
+        hosts_dir_path = FILES_PATHS.get('hosts_folder_path', os.path.join(os.path.dirname(__file__), 'hosts'))
 
     hosts_groups = get_filenames(hosts_dir_path)
 
@@ -298,3 +298,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
