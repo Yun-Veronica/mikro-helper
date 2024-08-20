@@ -1,0 +1,5 @@
+# Register interest in Python interpreter changes
+interest-noawait /usr/bin/python3.10
+
+# Also providing a symbolic trigger for all dh-virtualenv packages
+interest dh-virtualenv-interpreter-update
