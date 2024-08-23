@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Define dependencies (must match the control file)
+# Define dependencies
 DEPENDENCIES=("python3" "dos2unix" "python3-paramiko" "python3-yaml")
 
 # Check if the dependencies are installed
