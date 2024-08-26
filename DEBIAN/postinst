@@ -1,20 +1,12 @@
 #!/bin/bash
-#get dir path
-SCRIPT_DIR=$(dirname "$(realpath "$0")")
-
-#add permission
-chmod +x $SCRIPT_DIR/mikro-helper.py
-
 dos2unix $SCRIPT_DIR/mikro-helper.py
 
 #add to PATH
-export PATH=\$PATH:$PROGRAM_PATH
-
-mv  $SCRIPT_DIR/mikro-helper.py /usr/bin/
+export PATH=\$PATH:/usr/bin
 
 chmod +x /usr/bin/mikro-helper.py
 
 #create alias
-echo "alias mikro-helper='python3 $SCRIPT_DIR/mikro-helper.py'" >> ~/.bashrc
+echo "alias mikro-helper='python3 usr/bin/mikro-helper.py'" >> ~/.bashrc
 source ~/.bashrc
 
