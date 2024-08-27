@@ -1,15 +1,10 @@
-##!/bin/bash
-#
-## Define dependencies (must match the control file)
-#DEPENDENCIES=("python3" "dos2unix" "python3-paramiko" "python3-yaml")
-#
-## Check if the dependencies are installed
-#for dep in "${DEPENDENCIES[@]}"; do
-#    if ! dpkg-query -W -f='${Status}' "$dep" 2>/dev/null | grep "install ok installed" > /dev/null; then
-#        echo "Dependency $dep is missing. Installing..."
-#        apt-get update
-#        apt-get install -y "$dep"
-#    else
-#        echo "Dependency $dep is already installed."
-#    fi
-#done
+#!/bin/bash
+
+set -e
+
+# Ensure dos2unix is installed
+if ! dpkg -l | grep -q dos2unix; then
+    echo "dos2unix is required but not installed. Installing..."
+    apt-get update
+    apt-get install -y dos2unix
+fi

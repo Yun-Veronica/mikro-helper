@@ -1,12 +1,13 @@
 #!/bin/bash
-dos2unix $SCRIPT_DIR/mikro-helper.py
 
-#add to PATH
-export PATH=\$PATH:/usr/bin
+set -e
 
-chmod +x /usr/bin/mikro-helper.py
+# Convert any text files to Unix format
+echo "Converting text files to Unix format..."
+find /usr/bin -type f -exec dos2unix {} \;
 
-#create alias
-echo "alias mikro-helper='python3 usr/bin/mikro-helper.py'" >> ~/.bashrc
-source ~/.bashrc
+# Ensure paramiko is installed
+echo "Ensuring paramiko is installed..."
+pip3 install paramiko
 
+echo "Configuration complete!"
