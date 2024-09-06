@@ -1,3 +1,25 @@
-#!/usr/bin/bash
+#!/bin/bash
 
-echo "hello i am postinst"
+# Ensure this script is being run as root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "This script must be run as root." >&2
+    exit 1
+fi
+
+# Define the installation directory
+INSTALL_DIR="/home/user/mikro-helper/mikro-helper"
+PROGRAM_PATH="$INSTALL_DIR/mikro-helper.py"
+
+dos2unix "$PROGRAM_PATH"
+
+# Ensure the program is executable
+chmod +x "$PROGRAM_PATH"
+
+# Create a symlink to make the program available system-wide
+if [ ! -L /usr/local/bin/mikro-helper ]; then
+    ln -s "$PROGRAM_PATH" /usr/local/bin/mikro-helper
+fi
+
+echo "Postinst completed"
+
+exit 0

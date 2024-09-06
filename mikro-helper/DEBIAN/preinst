@@ -1,29 +1,33 @@
 #!/bin/bash
 set -e
 
-# Проверка прав суперпользователя
+#Ensure this script is being run as root
 if [ "$(id -u)" -ne 0 ]; then
-    echo "Этот скрипт должен быть запущен от имени суперпользователя." >&2
+    echo "This script must be run as superuser." >&2
     exit 1
 fi
 
-# Проверка наличия Python
+# Check for Python
 if ! command -v python3 &>/dev/null; then
-    echo "Python 3 не установлен. Установите его перед продолжением." >&2
+    sudo apt-get install python3
     exit 1
 fi
 
-# Проверка наличия pip
-if ! command -v pip3 &>/dev/null; then
-    echo "pip для Python 3 не установлен. Установите его перед продолжением." >&2
-    exit 1
-fi
 
-# Выполнение дополнительных действий (если необходимо)
-# Например, создание каталога для хранения данных программы
-install -d -m 755 /var/lib/my_mikrohelper
+# Check and install required dependencies
+DEPENDENCIES=("python3-paramiko" "python3-yaml" "dos2unix")
 
-# Вывод информационного сообщения
-echo "preinst скрипт завершен успешно."
+for dep in "${DEPENDENCIES[@]}"; do
+    if ! dpkg-query -W -f='${Status}' "$dep" 2>/dev/null | grep "install ok installed" > /dev/null; then
+        echo "Dependency $dep is missing. Installing..."
+        sudo apt-get install -y "$dep"
+    else
+        echo "Dependency $dep is already installed."
+    fi
+done
 
+# creating a directory to store program data
+install -d -m 755 /var/lib/mikro-helper
+
+echo "Preinst completed"
 exit 0
