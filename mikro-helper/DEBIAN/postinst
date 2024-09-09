@@ -17,7 +17,7 @@ chmod +x "$PROGRAM_PATH"
 
 # Create a symlink to make the program available system-wide
 if [ ! -L /usr/local/bin/mikro-helper ]; then
-    ln -s "$PROGRAM_PATH" /usr/local/bin/mikro-helper
+    ln -s "$PROGRAM_PATH" /usr/bin/mikro-helper
     echo "symlink created"
 fi
 
