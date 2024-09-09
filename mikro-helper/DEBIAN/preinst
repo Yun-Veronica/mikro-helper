@@ -15,7 +15,7 @@ fi
 
 
 # Check and install required dependencies
-DEPENDENCIES=("python3-paramiko" "python3-yaml" "dos2unix")
+DEPENDENCIES=("python3-paramiko" "python3-yaml" "dos2unix" )
 
 for dep in "${DEPENDENCIES[@]}"; do
     if ! dpkg-query -W -f='${Status}' "$dep" 2>/dev/null | grep "install ok installed" > /dev/null; then
