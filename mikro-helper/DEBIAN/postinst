@@ -9,8 +9,6 @@ fi
 # Define the installation directory
 INSTALL_DIR="/home/$SUDO_USER/mikro-helper/mikro-helper"
 PROGRAM_PATH="$INSTALL_DIR/mikro-helper.py"
-#CONFIG_FILE="$INSTALL_DIR/conf.ini"
-
 
 dos2unix "$PROGRAM_PATH"
 
@@ -20,22 +18,8 @@ chmod +x "$PROGRAM_PATH"
 # Create a symlink to make the program available system-wide
 if [ ! -L /usr/local/bin/mikro-helper ]; then
     ln -s "$PROGRAM_PATH" /usr/local/bin/mikro-helper
+    echo "symlink created"
 fi
-
-
-#if [ -f "$CONFIG_FILE" ]; then
-#    echo "Updating the configuration file with the new path..."
-#    
-#    # Add or update the 'hosts_folder_path' entry in the configuration file
-#    # This uses `sed` to replace the line if it exists, or append it if not
-#    sed -i "s|^hosts_folder_path=.*|hosts_folder_path=$INSTALL_DIR/hosts|" "$CONFIG_FILE" || echo "hosts_folder_path=$INSTALL_DIR/hosts" >> "$CONFIG_FILE"
-#    
-#    # Corrected 'vars_folder_path' entry update
-#    sed -i "s|^vars_folder_path=.*|vars_folder_path=$INSTALL_DIR/vars|" "$CONFIG_FILE" || echo "vars_folder_path=$INSTALL_DIR/vars" >> "$CONFIG_FILE"
-#else
-#    echo "Configuration file not found at $CONFIG_FILE" >&2
-#    exit 1
-#fi
 
 
 echo "Postinst completed"
