@@ -21,7 +21,7 @@ chmod +x "$PROGRAM_PATH"
 #    echo "symlink created"
 #fi
 
-ln -s "$PROGRAM_PATH" /usr/local/bin/mikro-helper
+ln -s "$PROGRAM_PATH" /usr/bin/mikro-helper
 
 echo "Postinst completed"
 
