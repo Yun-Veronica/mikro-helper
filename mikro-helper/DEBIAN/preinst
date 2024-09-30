@@ -6,20 +6,9 @@ if [ "$(id -u)" -ne 0 ]; then
     echo "This script must be run as superuser." >&2
     exit 1
 fi
-# Function to wait for the dpkg/apt lock to be released
-wait_for_lock() {
-    echo "Checking for existing package manager locks..."
-    while fuser /var/lib/dpkg/lock >/dev/null 2>&1 || fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do
-        echo "Waiting for other package managers to finish..."
-        sleep 5
-    done
-}
-
-
 
 # Check for Python
 if ! command -v python3 &>/dev/null; then
-    wait_for_lock
     sudo apt-get install python3
     exit 1
 fi
@@ -28,15 +17,7 @@ fi
 # Check and install required dependencies
 DEPENDENCIES=("python3-paramiko" "python3-yaml" "dos2unix" )
 
-for dep in "${DEPENDENCIES[@]}"; do
-    if ! dpkg-query -W -f='${Status}' "$dep" 2>/dev/null | grep "install ok installed" > /dev/null; then
-        echo "Dependency $dep is missing. Installing..."
-        wait_for_lock #Wait for the package manager lock before each install
-        sudo apt-get install -y "$dep"
-    else
-        echo "Dependency $dep is already installed."
-    fi
-done
+sudo apt-get install -y "${DEPENDENCIES[@]}"
 
 # creating a directory to store program data
 install -d -m 755 /var/lib/mikro-helper
